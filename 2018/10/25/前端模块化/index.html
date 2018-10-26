@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>彩色雨</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="Fechin,"> 
+    
+    <meta name="author" content="彩色雨"> 
+    <link rel="alternative" href="atom.xml" title="彩色雨" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+</head>
+</html>
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">前端模块化</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class="main">
+        <h1 class="title">前端模块化</h1>
+        <div class="stuff">
+            <span>十月 25, 2018</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/AMD/">AMD</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Babel/">Babel</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/CMD/">CMD</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/CommonJS/">CommonJS</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/ES6模块/">ES6模块</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Webpack/">Webpack</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <p>什么是模块？为什么要模块化？架构师或者比你牛逼的攻城狮搭建好架构后，只知道项目中粘贴代码，不知道何时用require，何时用import，何时用export，何时用module.exports？耐心的看完这篇文章(前半部分有点啰嗦，没耐心请直接跳转到关于ES6模块的介绍)，希望一脸懵逼的你们，能有所获。</p>
+<h4 id="模块的由来"><a href="#模块的由来" class="headerlink" title="模块的由来"></a>模块的由来</h4><p>(1)原始写法：将实现类似功能的函数放在一个JS文件中，直接调用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// math.js</span></span><br><span class="line"><span class="keyword">var</span> defaultNum1 = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">var</span> defaultNum2 = <span class="number">2</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">num1, num2</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (num1 || defaultNum1) + (num2 || defaultNum2)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">minus</span>(<span class="params">num1, num2</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (num1 || defaultNum1) - (num2 || defaultNum2)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// index.html</span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">header</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">'./utils/math.js'</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">header</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">      add()</span></span><br><span class="line"><span class="undefined">      minus()</span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>以上的写法，其实是直接将add和minus方法直接挂在window对象上，污染了全局变量. 不但无法保证不与其他引入的模块发生变量名冲突(同名时，会发生覆盖，最后引入的起作用).而且模块成员之间看不出直接关系。</p>
+<p>（2）对象写法：将实现类似功能的函数存放在一个对象(即所谓的模块)中，作为模块的成员变量或方法进行调用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> mathModule = &#123;</span><br><span class="line">  defaultNum1: <span class="number">1</span>,</span><br><span class="line">  defaultNum2: <span class="number">2</span>,</span><br><span class="line">  add: <span class="function"><span class="keyword">function</span>(<span class="params">num1, num2</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (num1 || <span class="keyword">this</span>.defaultNum1) + (num2 || <span class="keyword">this</span>.defaultNum2)</span><br><span class="line">  &#125;,</span><br><span class="line">  minus: <span class="function"><span class="keyword">function</span>(<span class="params">num1, num2</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (num1 || <span class="keyword">this</span>.defaultNum1) - (num2 || <span class="keyword">this</span>.defaultNum2)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// index.html 重复代码就不重复了吧...</span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">  mathModule.defaultNum1 = 3;</span></span><br><span class="line"><span class="undefined">  mathModule.defaultNum2 = 4;</span></span><br><span class="line"><span class="javascript">  mathModule.add()              <span class="comment">// 7，mathModule对象的默认状态值被外部修改了</span></span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>以上写法，虽然说减少了对全局变量的污染，但是还是存在一些问题，比如向外暴露了模块的所有成员，并且内部状态可以被改写。</p>
+<p>（3）自执行函数写法：将实现类似功能的函数定义在执行函数中，只暴露需要被外部调用的变量或方法，其实这时候模块的雏形已经出来了。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> mathModule = (<span class="function"><span class="keyword">function</span>(<span class="params">mod</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> defaultNum1 = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">var</span> defaultNum2 = <span class="number">2</span>;</span><br><span class="line">  <span class="keyword">var</span> add = <span class="function"><span class="keyword">function</span> (<span class="params">num1, num2</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (num1 || defaultNum1) + (num2 || defaultNum2)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">var</span> minus = <span class="function"><span class="keyword">function</span>(<span class="params">num1, num2</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (num1 || defaultNum1) - (num2 || defaultNum2)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    add: add</span><br><span class="line">  &#125;</span><br><span class="line">&#125;(otherModule))</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// index.html 重复代码就不重复了吧...</span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">  mathModule.add();       <span class="comment">// 3</span></span></span><br><span class="line"><span class="javascript">  mathModule.minus();     <span class="comment">// undefined</span></span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="什么是模块"><a href="#什么是模块" class="headerlink" title="什么是模块"></a>什么是模块</h4><p>通过以上的几个例子中，大概可以将模块归纳为：一个JavaScript模块就是一个对其他模块暴露一些内部属性/方法的文件。</p>
+<h4 id="AMD、CMD、CommonJS、ES6模块详解"><a href="#AMD、CMD、CommonJS、ES6模块详解" class="headerlink" title="AMD、CMD、CommonJS、ES6模块详解"></a>AMD、CMD、CommonJS、ES6模块详解</h4><h5 id="AMD规范"><a href="#AMD规范" class="headerlink" title="AMD规范"></a>AMD规范</h5><h5 id="CDM规范"><a href="#CDM规范" class="headerlink" title="CDM规范"></a>CDM规范</h5><h5 id="CommonJS规范"><a href="#CommonJS规范" class="headerlink" title="CommonJS规范"></a>CommonJS规范</h5><h5 id="ES6模块"><a href="#ES6模块" class="headerlink" title="ES6模块"></a>ES6模块</h5><h4 id="Webpack、Babel在模块化中充当什么角色"><a href="#Webpack、Babel在模块化中充当什么角色" class="headerlink" title="Webpack、Babel在模块化中充当什么角色"></a>Webpack、Babel在模块化中充当什么角色</h4>
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title="0" data-url="http://link.hhtjim.com/163/5146554.mp3"></li>
+                    
+                        <li title="1" data-url="http://link.hhtjim.com/qq/001faIUs4M2zna.mp3"></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id="gitalk-container" class="comment link" data-ae="false" data-ci="" data-cs="" data-r="" data-o="" data-a="" data-d="false">查看评论</div>
+
+
+    </div>
+    
+        <div class="side">
+            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#模块的由来"><span class="toc-number">1.</span> <span class="toc-text">模块的由来</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#什么是模块"><span class="toc-number">2.</span> <span class="toc-text">什么是模块</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AMD、CMD、CommonJS、ES6模块详解"><span class="toc-number">3.</span> <span class="toc-text">AMD、CMD、CommonJS、ES6模块详解</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#AMD规范"><span class="toc-number">3.1.</span> <span class="toc-text">AMD规范</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#CDM规范"><span class="toc-number">3.2.</span> <span class="toc-text">CDM规范</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#CommonJS规范"><span class="toc-number">3.3.</span> <span class="toc-text">CommonJS规范</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ES6模块"><span class="toc-number">3.4.</span> <span class="toc-text">ES6模块</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Webpack、Babel在模块化中充当什么角色"><span class="toc-number">4.</span> <span class="toc-text">Webpack、Babel在模块化中充当什么角色</span></a></li></ol>
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
