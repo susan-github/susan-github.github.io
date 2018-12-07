@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>彩色雨-个人技术博客</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="Fechin,"> 
+    
+    <meta name="author" content="苏三"> 
+    <link rel="alternative" href="atom.xml" title="彩色雨-个人技术博客" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//unpkg.com/gitalk/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+    <link rel="stylesheet" href="/css/overwrite.css">
+</head>
+</html>
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">Jest + enzyme 单元测试入门</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class="main">
+        <h1 class="title">Jest + enzyme 单元测试入门</h1>
+        <div class="stuff">
+            <span>十二月 06, 2018</span>
+            <span>最近更新：十二月 07, 2018</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Jest/">Jest</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Mobx/">Mobx</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/React/">React</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/enzyme/">enzyme</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/单元测试/">单元测试</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <p>留给程序员的时间，永远都不够开发的，哪有时间写单元测试？<br>为什么要选Jest作为单元测试框架？<br>单元测试有啥用？</p>
+<p>先说说我是怎么就心血来潮的开始写单元测试的吧，作为一枚新时代前端，除了会写页面布局和交互，还要会用nodejs写网关去调服务组的服务。<br>有一天跟某个服务组联调的时候，就很奇怪，发出去的请求，有时候能调通，有时候不行（大概是三四次会有一次成功吧）然后就问了下服务是什么情况？服务的回复是，因为他们组的人本地都启了服务，然后由于dubbo服务的负载均衡，会随机请求到开发环境及本地服务器。</p>
+<p>由于服务应用大，多人开发，网关作为下游，联调成本太高，如果他们还喜欢打断点，那不是GG了。<br>不懂服务的小白就屁颠屁颠地问了下别的组，那位程序员骄傲且自豪地说：我们本地基本都不启动服务的，盲写高质量代码，写完直接跑单元测试模拟网关请求，全部过了，基本上就没啥问题了。听上去他们组的人都非常牛叉哄哄的，但是透过本质看到的是除了代码质量，更加NB的是单元测试有没有。</p>
+<p>屁话有点多了，接下来进入正题，Jest是什么？怎么用？</p>
+<h4 id="Jest是什么？"><a href="#Jest是什么？" class="headerlink" title="Jest是什么？"></a>Jest是什么？</h4><h4 id="Jest的基本配置"><a href="#Jest的基本配置" class="headerlink" title="Jest的基本配置"></a>Jest的基本配置</h4><h4 id="React组件测试用例"><a href="#React组件测试用例" class="headerlink" title="React组件测试用例"></a>React组件测试用例</h4><h5 id="enzyme-shawllow、mount、render三种方式的区别"><a href="#enzyme-shawllow、mount、render三种方式的区别" class="headerlink" title="enzyme | shawllow、mount、render三种方式的区别"></a>enzyme | shawllow、mount、render三种方式的区别</h5><h4 id="Mobx测试"><a href="#Mobx测试" class="headerlink" title="Mobx测试"></a>Mobx测试</h4><p>要想进行Mobx测试，最主要的就是要知道Mobx的装饰器(比如@observable、@observer)是将Mobx的store和react的组件关联起来的。<br>Mobx-react插件提供的@observer装饰器将react组件包裹起来，并将react的render方法重写成了reactiveRender，reactiveRender这个方法会在store里可观察属性发生变化时被调用。因为我们只关注组件，所以我们可以在这个时间节点，使用相关的@observable属性和方法，创建模拟Mobx存储。所以第一步，就是使用observable创建一个模拟的store.</p>
+<h5 id="1-设置"><a href="#1-设置" class="headerlink" title="1. 设置"></a>1. 设置</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">describe(<span class="string">'Capacity History Page'</span>, () =&gt; &#123;</span><br><span class="line">  <span class="keyword">let</span> store;</span><br><span class="line">  <span class="keyword">let</span> commonStore;</span><br><span class="line">  </span><br><span class="line">  beforeEach(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">//turn off strict mode when testing with mock store</span></span><br><span class="line">    <span class="comment">// 如果不关闭，则必须使用actions才能修改store的值</span></span><br><span class="line">    useStrict(<span class="literal">false</span>);</span><br><span class="line">    commonStore = observable(&#123;</span><br><span class="line">      title: <span class="string">'加载中...'</span></span><br><span class="line">    &#125;)</span><br><span class="line">    store = observable(&#123;</span><br><span class="line">      firstTime: <span class="string">''</span>,</span><br><span class="line">      historyList: &#123;</span><br><span class="line">        currentPage: <span class="number">0</span>,     </span><br><span class="line">        pageCount: <span class="number">1</span>,       </span><br><span class="line">        pageSize: <span class="number">20</span>,       </span><br><span class="line">        list: [&#123; <span class="attr">demandId</span>: <span class="number">1</span> &#125;, &#123; <span class="attr">demandId</span>: <span class="number">2</span> &#125;],</span><br><span class="line">        isFetching: <span class="literal">false</span></span><br><span class="line">      &#125;,</span><br><span class="line">      getCapacitysFirstTime: jest.fn(),</span><br><span class="line">      getCapacityHistoryList: jest.fn(),</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>注意：使用useStrict(false);将Mobx的严格模式关闭。因为在Mobx中，严格模式不允许直接修改store中的属性值，而且要求你必须使用特定的action来修改属性值。如果将useStrict设置成true，在下面演示store更新后，组件渲染会变化的例子中，将不能给store赋值，npm test的时候，会有<code>[mobx] Invariant failed: Since strict-mode is enabled, changing observed observable values outside actions is not allowed. Please wrap the code in
+ an &#39;action&#39; if this change is intended</code>的错误提示。</p>
+<h5 id="2-测试组件是否正在观察store的变化"><a href="#2-测试组件是否正在观察store的变化" class="headerlink" title="2. 测试组件是否正在观察store的变化"></a>2. 测试组件是否正在观察store的变化</h5><h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4>
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title="0" data-url="http://link.hhtjim.com/163/5146554.mp3"></li>
+                    
+                        <li title="1" data-url="http://link.hhtjim.com/qq/001faIUs4M2zna.mp3"></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id="gitalk-container" class="comment link" data-ae="false" data-ci="c50df27053281fcfc60c" data-cs="9abdd806e5d89917e67dd782c7c85efd8fe51ef0" data-r="susan-github.github.io" data-o="susan-github" data-a="susan-github" data-d="false">查看评论</div>
+
+
+    </div>
+    
+        <div class="side">
+            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Jest是什么？"><span class="toc-number">1.</span> <span class="toc-text">Jest是什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Jest的基本配置"><span class="toc-number">2.</span> <span class="toc-text">Jest的基本配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#React组件测试用例"><span class="toc-number">3.</span> <span class="toc-text">React组件测试用例</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#enzyme-shawllow、mount、render三种方式的区别"><span class="toc-number">3.1.</span> <span class="toc-text">enzyme | shawllow、mount、render三种方式的区别</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Mobx测试"><span class="toc-number">4.</span> <span class="toc-text">Mobx测试</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-设置"><span class="toc-number">4.1.</span> <span class="toc-text">1. 设置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-测试组件是否正在观察store的变化"><span class="toc-number">4.2.</span> <span class="toc-text">2. 测试组件是否正在观察store的变化</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他"><span class="toc-number">5.</span> <span class="toc-text">其他</span></a></li></ol>
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<script src="/js/md5.min.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
