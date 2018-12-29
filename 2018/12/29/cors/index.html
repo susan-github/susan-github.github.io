@@ -104,24 +104,25 @@
 
 
 
-  <meta name="description" content="一枚文科毕业，工作5+年的程序媛👨‍💻。">
-<meta name="keywords" content="前端">
-<meta property="og:type" content="website">
-<meta property="og:title" content="苏三 • 博客">
-<meta property="og:url" content="http://yoursite.com/archives/2018/index.html">
+  <meta name="description" content="前言遇到问题的过程中，很多人优先想到的是如何去解决，而不是说为什么会出现这种现象，毕竟留给程序员的时间不多，就把”为什么”留给空下来的时候，再去好好研究吧，然后留着留着就忘记这一茬了。 当然，以上仅代表个人观点，因为我就是这样的人，现在，我决定把某一茬捡起来。 背景有一天，有个同事遇到个问题(具体啥问题记不清了)，然后找另外一个同事帮她看，然后另外一个同事说：你不知道跨域访问，会有一个OPTION">
+<meta name="keywords" content="CORS跨域,OPTIONS预检请求,Postman请求工具">
+<meta property="og:type" content="article">
+<meta property="og:title" content="聊聊跨域请求的OPTIONS预检请求">
+<meta property="og:url" content="http://yoursite.com/2018/12/29/cors/index.html">
 <meta property="og:site_name" content="苏三 • 博客">
-<meta property="og:description" content="一枚文科毕业，工作5+年的程序媛👨‍💻。">
+<meta property="og:description" content="前言遇到问题的过程中，很多人优先想到的是如何去解决，而不是说为什么会出现这种现象，毕竟留给程序员的时间不多，就把”为什么”留给空下来的时候，再去好好研究吧，然后留着留着就忘记这一茬了。 当然，以上仅代表个人观点，因为我就是这样的人，现在，我决定把某一茬捡起来。 背景有一天，有个同事遇到个问题(具体啥问题记不清了)，然后找另外一个同事帮她看，然后另外一个同事说：你不知道跨域访问，会有一个OPTION">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-12-29T04:04:28.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="苏三 • 博客">
-<meta name="twitter:description" content="一枚文科毕业，工作5+年的程序媛👨‍💻。">
+<meta name="twitter:title" content="聊聊跨域请求的OPTIONS预检请求">
+<meta name="twitter:description" content="前言遇到问题的过程中，很多人优先想到的是如何去解决，而不是说为什么会出现这种现象，毕竟留给程序员的时间不多，就把”为什么”留给空下来的时候，再去好好研究吧，然后留着留着就忘记这一茬了。 当然，以上仅代表个人观点，因为我就是这样的人，现在，我决定把某一茬捡起来。 背景有一天，有个同事遇到个问题(具体啥问题记不清了)，然后找另外一个同事帮她看，然后另外一个同事说：你不知道跨域访问，会有一个OPTION">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/2018/">
+  <link rel="canonical" href="http://yoursite.com/2018/12/29/cors/">
 
 
 
@@ -131,7 +132,7 @@
   };
 </script>
 
-  <title>归档 | 苏三 • 博客</title>
+  <title>聊聊跨域请求的OPTIONS预检请求 | 苏三 • 博客</title>
   
 
 
@@ -179,7 +180,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -234,7 +235,7 @@
         
         
           
-          <li class="menu-item menu-item-archives menu-item-active">
+          <li class="menu-item menu-item-archives">
 
     
     
@@ -298,25 +299,6 @@
   
     
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
   
 
   
@@ -362,183 +344,209 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/29/cors/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="苏三">
+      <meta itemprop="description" content="一枚文科毕业，工作5+年的程序媛👨‍💻。">
+      <meta itemprop="image" content="/images/common/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="苏三 • 博客">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">聊聊跨域请求的OPTIONS预检请求
+
+              
+            
+          </h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-29 23:07:35 / 修改时间：12:04:28" itemprop="dateCreated datePublished" datetime="2018-12-29T23:07:35+08:00">2018-12-29</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
           
-        
-        嗯..! 目前共计 4 篇日志。 继续努力。
-      </span>
-      
 
-      
-
-        
-        
-        
-
-        
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2018">2018</h1>
-          </div>
-        
-        
+            
+          
 
-        
+          
+          
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/12/29/cors/" itemprop="url">
-              
-                <span itemprop="name">聊聊跨域请求的OPTIONS预检请求</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-12-29T23:07:35+08:00" content="2018-12-29">
-          12-29
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+        </div>
+      </header>
+    
 
-
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/12/25/testing/" itemprop="url">
-              
-                <span itemprop="name">Javascript浮点数存储及误差问题</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-12-25T19:50:37+08:00" content="2018-12-25">
-          12-25
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/12/06/testing/" itemprop="url">
-              
-                <span itemprop="name">Jest + enzyme 前端测试入门</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-12-06T20:29:24+08:00" content="2018-12-06">
-          12-06
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/10/25/modules/" itemprop="url">
-              
-                <span itemprop="name">聊聊CommonJS、ES6模块、Webpack及Babel</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-10-25T15:41:09+08:00" content="2018-10-25">
-          10-25
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
+        <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>遇到问题的过程中，很多人优先想到的是如何去解决，而不是说为什么会出现这种现象，毕竟留给程序员的时间不多，就把”为什么”留给空下来的时候，再去好好研究吧，然后留着留着就忘记这一茬了。</p>
+<p>当然，以上仅代表个人观点，因为我就是这样的人，现在，我决定把某一茬捡起来。</p>
+<h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>有一天，有个同事遇到个问题(具体啥问题记不清了)，然后找另外一个同事帮她看，然后另外一个同事说：你不知道跨域访问，会有一个OPTIONS的请求么？我在旁边听到的时候，心想：我知道会有个OPTIONS，但是为什么呢？</p>
+<h4 id="CORS跨域请求"><a href="#CORS跨域请求" class="headerlink" title="CORS跨域请求"></a>CORS跨域请求</h4><h4 id="OPTIONS预检请求"><a href="#OPTIONS预检请求" class="headerlink" title="OPTIONS预检请求"></a>OPTIONS预检请求</h4><p>有人可能会提出疑问，一个html页面引入第三方库(比如jQuery: <a href="https://code.jquery.com/jquery-3.3.1.min.js)，不也是跨域么？怎么就不会出现OPTIONS方式的请求呢？接下来就说说什么时候发送预检请求。" target="_blank" rel="noopener">https://code.jquery.com/jquery-3.3.1.min.js)，不也是跨域么？怎么就不会出现OPTIONS方式的请求呢？接下来就说说什么时候发送预检请求。</a></p>
+<h4 id="Postman-mockServer如何解决跨域问题？"><a href="#Postman-mockServer如何解决跨域问题？" class="headerlink" title="Postman mockServer如何解决跨域问题？"></a>Postman mockServer如何解决跨域问题？</h4>
       
-
     </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>您的赞赏，将是我不断前进的动力!</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/common/wechatpay.jpg" alt="苏三 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/common/alipay.jpg" alt="苏三 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CORS跨域/" rel="tag"># CORS跨域</a>
+          
+            <a href="/tags/OPTIONS预检请求/" rel="tag"># OPTIONS预检请求</a>
+          
+            <a href="/tags/Postman请求工具/" rel="tag"># Postman请求工具</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/25/testing/" rel="next" title="Javascript浮点数存储及误差问题">
+                <i class="fa fa-chevron-left"></i> Javascript浮点数存储及误差问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+  </div>
 
 
           </div>
           
+
+  
+
+
 
         </div>
         
@@ -559,8 +567,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -689,6 +706,23 @@
       </div>
 
       
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#背景"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CORS跨域请求"><span class="nav-number">3.</span> <span class="nav-text">CORS跨域请求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#OPTIONS预检请求"><span class="nav-number">4.</span> <span class="nav-text">OPTIONS预检请求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Postman-mockServer如何解决跨域问题？"><span class="nav-number">5.</span> <span class="nav-text">Postman mockServer如何解决跨域问题？</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
 
       
 
@@ -816,6 +850,10 @@
   
 
   
+  <script src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script src="/js/src/post-details.js?v=6.6.0"></script>
+
+
 
   
 
