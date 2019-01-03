@@ -1,7 +1,0 @@
-/* 自定义覆盖样式 */
-.article .toc li a {
-  width: 100%;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
