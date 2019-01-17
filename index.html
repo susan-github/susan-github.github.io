@@ -422,7 +422,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-01-17 14:10:09" itemprop="dateModified" datetime="2018-01-17T14:10:09+08:00">2018-01-17</time>
+                <time title="修改时间：2019-01-17 14:10:09" itemprop="dateModified" datetime="2019-01-17T14:10:09+08:00">2019-01-17</time>
               
             
           </span>
@@ -493,166 +493,6 @@
             </div>
           
           <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/14/starter-kit/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="苏三">
-      <meta itemprop="description" content="一枚文科毕业，工作5+年的程序媛👨‍💻。">
-      <meta itemprop="image" content="/images/common/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="苏三 • 博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/01/14/starter-kit/" class="post-title-link" itemprop="url">starter-kit</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-01-14 11:44:43" itemprop="dateCreated datePublished" datetime="2019-01-14T11:44:43+08:00">2019-01-14</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-01-15 19:35:18" itemprop="dateModified" datetime="2019-01-15T19:35:18+08:00">2019-01-15</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="Concurrently-同时"><a href="#Concurrently-同时" class="headerlink" title="Concurrently(同时)"></a>Concurrently(同时)</h4><p>Concurrently用于同时运行多个命令，我将它用于在开发环境启一个前端的webpack服务以及一个后端node服务，具体参考一下配置。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"scripts"</span>: &#123;</span><br><span class="line">    <span class="string">"start"</span>: <span class="string">"concurrently --kill-others \"npm run watch-client\" \"npm run start-server-dev\""</span>,</span><br><span class="line">    <span class="string">"watch-client"</span>: <span class="string">"better-npm-run watch-client"</span>,</span><br><span class="line">    <span class="string">"start-server-dev"</span>: <span class="string">"better-npm-run start-server-dev"</span>,</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure></p>
-<h4 id="better-npm-run-更好的npm脚本运行"><a href="#better-npm-run-更好的npm脚本运行" class="headerlink" title="better-npm-run(更好的npm脚本运行)"></a>better-npm-run(更好的npm脚本运行)</h4><ul>
-<li>避免在package.json中使用硬编码命令</li>
-<li>跨平台兼容性，比如<code>NODE_ENV=development webpack --watch --progress --colors</code>在*nix下运行OK，但是在windows下，NODE_ENV不被识别.</li>
-</ul>
-<p>使用better-npm-run运行命令，需要在package.json中增加一个betterScripts配置，具体参考<a href="https://github.com/benoror/better-npm-run#readme" target="_blank" rel="noopener">这里</a></p>
-<h4 id="webpack-dev-middleware和webpack-hot-middleware"><a href="#webpack-dev-middleware和webpack-hot-middleware" class="headerlink" title="webpack-dev-middleware和webpack-hot-middleware"></a>webpack-dev-middleware和webpack-hot-middleware</h4><p>webpack-dev-middleware是一个包装器，它将webpack处理的文件发送到服务器，仅在开发环境使用。它是将文件写入内存的，所以一旦文件有更新，它将从内存中读取文件，所以打包更快。<br>简而言之，webpack只负责打包编译的功能，而express启动了一个服务，那么怎么讲webpack输出的内容，发送到服务器呢？这就是webpack-dev-middleware的作用，通常配合webpack-hot-middleware实现热更新。<br>在webpack-dev-server内部使用，但它可以作为单独的包提供，以便在需要时允许更多自定义设置。</p>
-
-          
         
       
     </div>
@@ -1432,7 +1272,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
