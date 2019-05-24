@@ -405,7 +405,7 @@
                 
               
 
-              <time title="创建时间：2019-05-24 11:33:40 / 修改时间：13:53:12" itemprop="dateCreated datePublished" datetime="2019-05-24T11:33:40+08:00">2019-05-24</time>
+              <time title="创建时间：2019-05-24 11:33:40 / 修改时间：14:08:02" itemprop="dateCreated datePublished" datetime="2019-05-24T11:33:40+08:00">2019-05-24</time>
             
 
             
@@ -445,7 +445,9 @@
       
         
           
-            <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>很多前端项目都是直接使用提供的脚手架，包含较为完整的webpack配置，所以对webpack一直都是一知半解。前段时间将项目的webpack3升级到webpack4，借此机会对webpack进行扫盲。</p>
+            <center><br>  <img src="/images/webpack/webpack.png" width="225" height="225"><br></center>
+
+<h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>很多前端项目都是直接使用提供的脚手架，包含较为完整的webpack配置，所以对webpack一直都是一知半解。前段时间将项目的webpack3升级到webpack4，借此机会对webpack进行扫盲。</p>
 <h4 id="知识盲点总结"><a href="#知识盲点总结" class="headerlink" title="知识盲点总结"></a>知识盲点总结</h4><ol>
 <li>style-loader、css-loader、file-loader<br>webpack 最出色的功能之一就是，除了 JavaScript，还可以通过 loader 引入任何其他类型的文件。<br>像以上罗列的三个loader能够让js里能使用import的方式，引入css或者image文件，<br>file-loader: 识别这是一个本地文件，并将 ‘./my-image.png’ 路径，替换为输出目录中图像的最终路径(文件名可能包括hash).</li>
 <li>html-webpack-plugin<br>当webpack采用多入口(entry)或者输出文件名采用hash的方式，就会导致每次输出资源的url都是不同的，每次run build都需要相应的调整index.html。而HtmlWebpackPlugin这个插件就帮我们解决了这个痛点，可以自动生成index.html文件(当然也支持html模板生成，具体可参考<a href="https://github.com/jantimon/html-webpack-plugin" target="_blank" rel="noopener">配置</a>)，包含webpack输出的资源路径。</li>
