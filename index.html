@@ -360,6 +360,163 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/webpack/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="苏三">
+      <meta itemprop="description" content="一枚文科毕业，工作5+年的程序媛👨‍💻。">
+      <meta itemprop="image" content="/images/common/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="苏三 • 博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/webpack/" class="post-title-link" itemprop="url">webpack扫盲</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-24 11:33:40 / 修改时间：13:53:12" itemprop="dateCreated datePublished" datetime="2019-05-24T11:33:40+08:00">2019-05-24</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>很多前端项目都是直接使用提供的脚手架，包含较为完整的webpack配置，所以对webpack一直都是一知半解。前段时间将项目的webpack3升级到webpack4，借此机会对webpack进行扫盲。</p>
+<h4 id="知识盲点总结"><a href="#知识盲点总结" class="headerlink" title="知识盲点总结"></a>知识盲点总结</h4><ol>
+<li>style-loader、css-loader、file-loader<br>webpack 最出色的功能之一就是，除了 JavaScript，还可以通过 loader 引入任何其他类型的文件。<br>像以上罗列的三个loader能够让js里能使用import的方式，引入css或者image文件，<br>file-loader: 识别这是一个本地文件，并将 ‘./my-image.png’ 路径，替换为输出目录中图像的最终路径(文件名可能包括hash).</li>
+<li>html-webpack-plugin<br>当webpack采用多入口(entry)或者输出文件名采用hash的方式，就会导致每次输出资源的url都是不同的，每次run build都需要相应的调整index.html。而HtmlWebpackPlugin这个插件就帮我们解决了这个痛点，可以自动生成index.html文件(当然也支持html模板生成，具体可参考<a href="https://github.com/jantimon/html-webpack-plugin" target="_blank" rel="noopener">配置</a>)，包含webpack输出的资源路径。</li>
+<li>clean-webpack-plugin<br>在每次构建前清理 /dist 文件夹，保证dist文件夹只保留实际项目中用到的。</li>
+<li>sourceMap开启<br>如果webpack将三个文件打包成一个bundle.js时，当其中一个源文件发生错误，那么堆栈跟踪信息只会简单的指向到bundle.js，无法知道错误的准确位置，而开启devtool: ‘inline-source-map’之后，就能帮我们准确的指明错误在源文件中的位置。在生产环境中使用’source-map‘，在开发环境中使用’inline-source-map’，source-map还有很多不同的<a href="https://www.webpackjs.com/configuration/devtool/" target="_blank" rel="noopener">选项</a>, 根据实际情况配置。</li>
+<li>代码发生变化后自动编译<br>（1）watch观察者模式: 文件发生变化后，可以自动编译，但是需要手动刷新浏览器<br>（2）<a href="https://github.com/webpack/webpack-dev-server" target="_blank" rel="noopener">webpack-dev-server</a>：提供一个简单的web服务器，并且能够实时重新加载(live reloading)<br>（3）<a href="https://github.com/webpack/webpack-dev-middleware" target="_blank" rel="noopener">webpack-dev-middleware</a>: 它可以把 webpack 处理后的文件传递给一个服务器(server)，其实webpack-dev-server内部使用了它，可以启一个express服务试试。</li>
+<li>tree shaking<br>通常用于描述移除 JavaScript 上下文中的未引用代码(dead-code)</li>
+<li>DefinePlugin<br>允许创建一个在编译时可以配置的全局常量。比如用来定义当前运行的环境是development还是production.</li>
+<li>代码分离<br>（1）入口起点 (entry)<br>（2）防止重复引用：CommonsChunkPlugin，可以对引用进行去重和分离chunk，<br>webpack4使用webpack.optimize.SplitChunksPlugin和RuntimePlugin进行公用代码分离<br>（3）动态导入：通过模块的内联函数调用来分离代码。<br>（4）分离出CSS文件：<a href="https://github.com/webpack-contrib/extract-text-webpack-plugin" target="_blank" rel="noopener">extract-text-webpack-plugin</a><br>它会将所有的入口 chunk(entry chunks)中引用的 *.css，移动到独立分离的 CSS 文件。在不使用改插件时，所有的css样式都被打包在JSbundle里。webpack4使用<a href="https://github.com/webpack-contrib/mini-css-extract-plugin" target="_blank" rel="noopener">mini-css-extract-plugin</a>替代.<br>（5）DllPlugin结合DllReferencePlugin插件</li>
+<li>缓存<br>hash、chunkhash、contenthash的区别<br>hash一般是结合CDN缓存来使用，通过webpack构建之后，生成对应文件名自动带上对应的MD5值。如果文件内容改变的话，那么对应文件哈希值也会改变，对应的HTML引用的URL地址也会改变，触发CDN服务器从源服务器上拉取对应数据，进而更新本地缓存。<br>（1）hash：hash是跟整个项目的构建相关，只要项目里有文件更改，整个项目构建的hash值都会更改，并且全部文件都共用相同的hash值，这种方式有个缺陷，只要项目中有任何一个文件改变了，hash也会同时改变，所以所有文件都需重新拉取，达不到缓存的目的<br>（2）chunkhash：它根据不同的入口文件(Entry)进行依赖文件解析、构建对应的chunk，生成对应的哈希值。但是这个也有一个缺陷，就是当引用到的css没有变化时，由于处于同一个chunk，在业务处理变化是，css也达不到缓存的效果。<br>（3）contenthash：extra-text-webpack-plugin里的contenthash，保证即使css文件所处的模块里其他文件内容改变，只要css文件内容不变，那么不会重复构建。</li>
+<li>webpack中常用的配置的区别：path、publicPath、contentBase<br>（1）output.path：webpack创建bundles存放的绝对路径<br>（2）publicPath：devServer里配置的publicPath指的是打包生成的静态资源文件所在的位置，而output.publicPath代表的是index.html文件里面引用资源的前缀<br>（3）contentBase：指查找index.html的位置，默认是当前执行的目录，一般是项目根目录。</li>
+<li>path.join和path.resolve的区别<br>path.join将所有给定的path片段连接在一起，然后规范化生成路径。path.resolve将路径或路径片段的序列解析为绝对路径。resolve把”/“当成根目录。例子：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">path.join(<span class="string">'/foo/bar'</span>, <span class="string">'/tmp/file/'</span>)    <span class="comment">// /foo/bar/tmp/file/</span></span><br><span class="line">path.resolve(<span class="string">'/foo/bar'</span>, <span class="string">'/tmp/file/'</span>) <span class="comment">// /tmp/file</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h4><p><a href="https://www.webpackjs.com/configuration/devtool/" target="_blank" rel="noopener">https://www.webpackjs.com/configuration/devtool/</a><br><a href="https://juejin.im/post/5a4502be6fb9a0450d1162ed" target="_blank" rel="noopener">https://juejin.im/post/5a4502be6fb9a0450d1162ed</a><br><a href="https://juejin.im/post/5bb085dd6fb9a05cd24da5cf" target="_blank" rel="noopener">https://juejin.im/post/5bb085dd6fb9a05cd24da5cf</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/anti-pit/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1434,7 +1591,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-count">7</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
