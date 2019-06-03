@@ -112,7 +112,7 @@
 <meta property="og:site_name" content="苏三 • 博客">
 <meta property="og:description" content="GraphQL是什么？ GraphQL is a query language for your API, and a server-side runtime for executing queries by using a type system you define for your data. GraphQL isn’t tied to any specific database or st">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/images/graphql/demo1.gif">
+<meta property="og:image" content="https://github.com/susan-github/blogs/blob/master/source/images/graphql/demo1.gif">
 <meta property="og:image" content="http://yoursite.com/images/graphql/demo2.gif">
 <meta property="og:image" content="http://yoursite.com/images/graphql/demo3.gif">
 <meta property="og:image" content="http://yoursite.com/images/graphql/demo4.gif">
@@ -121,11 +121,11 @@
 <meta property="og:image" content="http://yoursite.com/images/graphql/demo7.gif">
 <meta property="og:image" content="http://yoursite.com/images/graphql/demo8.gif">
 <meta property="og:image" content="http://yoursite.com/images/graphql/demo9.gif">
-<meta property="og:updated_time" content="2019-06-03T03:02:10.144Z">
+<meta property="og:updated_time" content="2019-06-03T05:54:43.683Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GraphQL-API查询篇">
 <meta name="twitter:description" content="GraphQL是什么？ GraphQL is a query language for your API, and a server-side runtime for executing queries by using a type system you define for your data. GraphQL isn’t tied to any specific database or st">
-<meta name="twitter:image" content="http://yoursite.com/images/graphql/demo1.gif">
+<meta name="twitter:image" content="https://github.com/susan-github/blogs/blob/master/source/images/graphql/demo1.gif">
 
 
 
@@ -430,7 +430,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-06-03 11:02:10" itemprop="dateModified" datetime="2019-06-03T11:02:10+08:00">2019-06-03</time>
+                <time title="修改时间：2019-06-03 13:54:43" itemprop="dateModified" datetime="2019-06-03T13:54:43+08:00">2019-06-03</time>
               
             
           </span>
@@ -468,7 +468,7 @@
 </blockquote>
 <p>个人释义：GraphQL是一种API查询语言，并且是服务端运行时使用类型系统定义数据后执行查询的一种方式。它不依赖于任何特殊的数据库或者存储引擎，而是依赖于你现有的代码及数据。</p>
 <p>由<a href="https://graphql.org" target="_blank" rel="noopener">官网</a>的解释，可以看出GraphQL是包含客户端和服务端两部分的。<br>在看完这个官网文档之后，其实我更愿意认为GraphQL是一种标准，而与标准相对的便是实现(如graphql-js)。就像 EcmaScript 与 JavaScript 的关系。接下来，将按照<a href="https://graphql.org/graphql-js/" target="_blank" rel="noopener">graphql-js</a>展开。</p>
-<p>先来看一个例子来感受下<br><img src="/images/graphql/demo1.gif" width="495" height="369"></p>
+<p>先来看一个例子来感受下<br><img src="https://github.com/susan-github/blogs/blob/master/source/images/graphql/demo1.gif" width="495" height="369"></p>
 <p>这是我本地启了一个服务器，使用<a href="https://github.com/graphql/graphiql" target="_blank" rel="noopener">graphiql</a>作为客户端，发起请求的过程。<br>左边为请求，右边为返回值，在服务端不做任何代码调整并且不作任何逻辑判断的前提下，可以看到client端若只请求一个id字段，则Server端只返回一个id，这就是GraphQL的强大之处。</p>
 <p>可能又有人会问了，那我如果要传递参数咋办？这个演示的只是从服务端获取数据，那我要新增或者修改数据咋办？不要急，接下来先来学习一下client端的基本语法。</p>
 <h5 id="字段"><a href="#字段" class="headerlink" title="字段"></a>字段</h5><h5 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h5><blockquote>
