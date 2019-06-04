@@ -422,7 +422,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-06-03 14:17:40" itemprop="dateModified" datetime="2019-06-03T14:17:40+08:00">2019-06-03</time>
+                <time title="修改时间：2019-06-04 09:17:46" itemprop="dateModified" datetime="2019-06-04T09:17:46+08:00">2019-06-04</time>
               
             
           </span>
@@ -462,19 +462,19 @@
 </blockquote>
 <p>个人释义：GraphQL是一种API查询语言，并且是服务端运行时使用类型系统定义数据后执行查询的一种方式。它不依赖于任何特殊的数据库或者存储引擎，而是依赖于你现有的代码及数据。</p>
 <p>由<a href="https://graphql.org" target="_blank" rel="noopener">官网</a>的解释，可以看出GraphQL是包含客户端和服务端两部分的。<br>在看完这个官网文档之后，其实我更愿意认为GraphQL是一种标准，而与标准相对的便是实现(如graphql-js)。就像 EcmaScript 与 JavaScript 的关系。接下来，将按照<a href="https://graphql.org/graphql-js/" target="_blank" rel="noopener">graphql-js</a>展开。</p>
-<p>先来看一个例子来感受下<br><img src="/images/graphql/demo1.gif" width="495" height="369"></p>
+<p>先来看一个例子来感受下<br><img src="http://psih3vzwc.bkt.clouddn.com/graphql-demo1.gif" width="495" height="369"></p>
 <p>这是我本地启了一个服务器，使用<a href="https://github.com/graphql/graphiql" target="_blank" rel="noopener">graphiql</a>作为客户端，发起请求的过程。<br>左边为请求，右边为返回值，在服务端不做任何代码调整并且不作任何逻辑判断的前提下，可以看到client端若只请求一个id字段，则Server端只返回一个id，这就是GraphQL的强大之处。</p>
 <p>可能又有人会问了，那我如果要传递参数咋办？这个演示的只是从服务端获取数据，那我要新增或者修改数据咋办？不要急，接下来先来学习一下client端的基本语法。</p>
 <h5 id="字段"><a href="#字段" class="headerlink" title="字段"></a>字段</h5><h5 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h5><blockquote>
 <p>In a system like REST, you can only pass a single set of arguments - the query parameters and URL segments in your request. But in GraphQL, every field and nested object can get its own set of arguments, making GraphQL a complete replacement for making multiple API fetches.</p>
 </blockquote>
-<p><img src="/images/graphql/demo2.gif" width="495" height="369"></p>
+<p><img src="http://psih3vzwc.bkt.clouddn.com/graphql-demo2.gif" width="495" height="369"></p>
 <p>字段后面跟着<code>()</code>里的就是查询携带的参数，可以看到不仅仅只有最外层可以携带参数，字段内嵌套的同样也可以携带参数，只要在服务端有相应的resolve function来处理这个字段。也就是官网提到的<code>every field and nested object can get its own set of arguments, making GraphQL a complete replacement for making multiple API fetches</code></p>
-<h5 id="别名"><a href="#别名" class="headerlink" title="别名"></a>别名</h5><p><img src="/images/graphql/demo3.gif" width="495" height="369"></p>
+<h5 id="别名"><a href="#别名" class="headerlink" title="别名"></a>别名</h5><p><img src="http://psih3vzwc.bkt.clouddn.com/graphql-demo3.gif" width="495" height="369"></p>
 <p>为了代码更语义化，我们为了区分post和comment的id，给它们分别设置别名，postID、commentId，当然这只是一个例子，GraphQL中的每一个字段和嵌套的对象都可以有一个别名。</p>
 <h5 id="片段"><a href="#片段" class="headerlink" title="片段"></a>片段</h5><p>设想一下，一个页面包含两个tab，一个tab是生活类文章，一个tab是学习类文章(当然例子可能不太恰当，只是为了引出下面跟片段相关的例子)，这时候两个列表返回值的数据结构是一模一样的，或者只有细微差异，但是都是Post类型，按照之前的写法，可能就需要写成<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">query &#123;</span><br><span class="line">  lifePosts: posts(type: <span class="number">1</span>) &#123;</span><br><span class="line">    id</span><br><span class="line">    type</span><br><span class="line">    title</span><br><span class="line">  &#125;</span><br><span class="line">  learningPosts: posts(type: <span class="number">2</span>) &#123;</span><br><span class="line">    id</span><br><span class="line">    type</span><br><span class="line">    title</span><br><span class="line">    author</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>但是有了片段之后，不需要重复定义返回的数据结构了，用例子说话：<br><img src="/images/graphql/demo4.gif" width="495" height="369"></p>
-<p>需要注意的是<code>fragment postFields on Post</code>其中on后面跟的Post是在服务端定义的文章类型，这句代码可以理解为”根据Post类型定义一个postFields片段”，所以<code>Post</code>字段一定包含<code>postFields</code>字段，它们是包含的关系。<br>那片段能不能使用变量呢？答案当然是可以的，结合上文参数例子的基础上进行调整，来再看个例子<br><img src="/images/graphql/demo5.gif" width="495" height="369"></p>
+<p>但是有了片段之后，不需要重复定义返回的数据结构了，用例子说话：<br><img src="http://psih3vzwc.bkt.clouddn.com/graphql-demo4.gif" width="495" height="369"></p>
+<p>需要注意的是<code>fragment postFields on Post</code>其中on后面跟的Post是在服务端定义的文章类型，这句代码可以理解为”根据Post类型定义一个postFields片段”，所以<code>Post</code>字段一定包含<code>postFields</code>字段，它们是包含的关系。<br>那片段能不能使用变量呢？答案当然是可以的，结合上文参数例子的基础上进行调整，来再看个例子<br><img src="http://psih3vzwc.bkt.clouddn.com/graphql-demo5.gif" width="495" height="369"></p>
 <p>例子中，<code>$top: Int = 3</code>主要是为了调试方便，没有从外部传入变量，参数直接使用的默认值。</p>
 <h5 id="操作类型及操作名称"><a href="#操作类型及操作名称" class="headerlink" title="操作类型及操作名称"></a>操作类型及操作名称</h5><blockquote>
 <p>The operation type is either query, mutation, or subscription and describes what type of operation you’re intending to do. The operation type is required unless you’re using the query shorthand syntax, in which case you can’t supply a name or variable definitions for your operation.</p>
@@ -488,17 +488,17 @@
 <li>@include(if: Boolean) 仅在参数为 true 时，包含此字段。</li>
 <li>@skip(if: Boolean) 如果参数为 true，跳过此字段，顾名思义就是与@include相反的操作结果。</li>
 </ul>
-<p><img src="/images/graphql/demo6.gif" width="495" height="369"></p>
+<p><img src="http://psih3vzwc.bkt.clouddn.com/graphql-demo6.gif" width="495" height="369"></p>
 <p>由此可以看出，查询API可以通过一个变量来增减返回字段，当然官网也说了在服务端可以自定义指令，但是并未明确如何定义，有兴趣的可以看下<a href="">apollo-server源码</a>，印象中有一个<code>client</code>指令，这里暂时不涉及。</p>
 <h5 id="变更Mutation"><a href="#变更Mutation" class="headerlink" title="变更Mutation"></a>变更Mutation</h5><p>之前讨论的都是怎么查询操作，接下来我来说说如何增加、修改、删除操作？</p>
 <blockquote>
 <p>In REST, any request might end up causing some side-effects on the server, but by convention it’s suggested that one doesn’t use GET requests to modify data. GraphQL is similar - technically any query could be implemented to cause a data write. However, it’s useful to establish a convention that any operations that cause writes should be sent explicitly via a mutation.</p>
 </blockquote>
 <p>这句话什么意思，就是说GraphQL也是可以用Query的方法修改数据，但是使用mutation来更新服务端数据是一种约定。</p>
-<p>先来看下使用最简单的query插入数据<br><img src="/images/graphql/demo7.gif" width="495" height="369"></p>
+<p>先来看下使用最简单的query插入数据<br><img src="http://psih3vzwc.bkt.clouddn.com/graphql-demo7.gif" width="495" height="369"></p>
 <p>对graphql有一点了解的人，可能知道有个graphql Input类型，并且一般都是跟mutation一起被提及，我们可以再来看一下query和input类型结合使用是否可行？</p>
-<p><img src="/images/graphql/demo8.gif" width="495" height="369"><br>可以看出，修改服务端为接收Input类型参数后，使用query方法插入数据，服务端能正确接收到参数，并且成功插入数据，由此证实了使用query是可以修改服务端数据的，但是规范毕竟是规范，没有规矩不成方圆，还是按照官网使用mutation的方式对服务进行增、删、改操作。在服务端增加Mutation相应的入口方法。</p>
-<p><img src="/images/graphql/demo9.gif" width="495" height="369"></p>
+<p><img src="http://psih3vzwc.bkt.clouddn.com/graphql-demo8.gif" width="495" height="369"><br>可以看出，修改服务端为接收Input类型参数后，使用query方法插入数据，服务端能正确接收到参数，并且成功插入数据，由此证实了使用query是可以修改服务端数据的，但是规范毕竟是规范，没有规矩不成方圆，还是按照官网使用mutation的方式对服务进行增、删、改操作。在服务端增加Mutation相应的入口方法。</p>
+<p><img src="http://psih3vzwc.bkt.clouddn.com/graphql-demo9.gif" width="495" height="369"></p>
 <p>虽然上述几个例子证明了query和mutation都能修改服务端数据，操作方式看似业务差异，但是官网更有云:</p>
 <blockquote>
 <p>A mutation can contain multiple fields, just like a query. There’s one important distinction between queries and mutations, other than the name: While query fields are executed in parallel, mutation fields run in series, one after the other. This means that if we send two incrementCredits mutations in one request, the first is guaranteed to finish before the second begins, ensuring that we don’t end up with a race condition with ourselves.</p>
